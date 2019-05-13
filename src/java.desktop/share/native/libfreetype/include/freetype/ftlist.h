@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    Generic list support for FreeType (specification).                   */
 /*                                                                         */
-/*  Copyright 1996-2018 by                                                 */
+/*  Copyright 1996-2001, 2003, 2007, 2010, 2013 by                         */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -24,8 +24,8 @@
   /*************************************************************************/
 
 
-#ifndef FTLIST_H_
-#define FTLIST_H_
+#ifndef __FTLIST_H__
+#define __FTLIST_H__
 
 
 #include <ft2build.h>
@@ -248,7 +248,7 @@ FT_BEGIN_HEADER
   /*    list    :: A handle to the list.                                   */
   /*                                                                       */
   /*    destroy :: A list destructor that will be applied to each element  */
-  /*               of the list.  Set this to NULL if not needed.           */
+  /*               of the list.                                            */
   /*                                                                       */
   /*    memory  :: The current memory object that handles deallocation.    */
   /*                                                                       */
@@ -265,12 +265,13 @@ FT_BEGIN_HEADER
                     FT_Memory           memory,
                     void*               user );
 
+
   /* */
 
 
 FT_END_HEADER
 
-#endif /* FTLIST_H_ */
+#endif /* __FTLIST_H__ */
 
 
 /* END */

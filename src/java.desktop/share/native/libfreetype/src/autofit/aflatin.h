@@ -5,7 +5,7 @@
 /*    Auto-fitter hinting routines for latin writing system                */
 /*    (specification).                                                     */
 /*                                                                         */
-/*  Copyright 2003-2018 by                                                 */
+/*  Copyright 2003-2007, 2009, 2011-2013 by                                */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -17,8 +17,8 @@
 /***************************************************************************/
 
 
-#ifndef AFLATIN_H_
-#define AFLATIN_H_
+#ifndef __AFLATIN_H__
+#define __AFLATIN_H__
 
 #include "afhints.h"
 
@@ -53,10 +53,6 @@ FT_BEGIN_HEADER
 
 #define AF_LATIN_IS_TOP_BLUE( b ) \
           ( (b)->properties & AF_BLUE_PROPERTY_LATIN_TOP )
-#define AF_LATIN_IS_SUB_TOP_BLUE( b ) \
-          ( (b)->properties & AF_BLUE_PROPERTY_LATIN_SUB_TOP )
-#define AF_LATIN_IS_NEUTRAL_BLUE( b ) \
-          ( (b)->properties & AF_BLUE_PROPERTY_LATIN_NEUTRAL )
 #define AF_LATIN_IS_X_HEIGHT_BLUE( b ) \
           ( (b)->properties & AF_BLUE_PROPERTY_LATIN_X_HEIGHT )
 #define AF_LATIN_IS_LONG_BLUE( b ) \
@@ -65,21 +61,20 @@ FT_BEGIN_HEADER
 #define AF_LATIN_MAX_WIDTHS  16
 
 
-#define AF_LATIN_BLUE_ACTIVE      ( 1U << 0 ) /* zone height is <= 3/4px   */
-#define AF_LATIN_BLUE_TOP         ( 1U << 1 ) /* we have a top blue zone   */
-#define AF_LATIN_BLUE_SUB_TOP     ( 1U << 2 ) /* we have a subscript top   */
-                                              /* blue zone                 */
-#define AF_LATIN_BLUE_NEUTRAL     ( 1U << 3 ) /* we have neutral blue zone */
-#define AF_LATIN_BLUE_ADJUSTMENT  ( 1U << 4 ) /* used for scale adjustment */
-                                              /* optimization              */
+  enum
+  {
+    AF_LATIN_BLUE_ACTIVE     = 1 << 0,  /* set if zone height is <= 3/4px */
+    AF_LATIN_BLUE_TOP        = 1 << 1,  /* result of AF_LATIN_IS_TOP_BLUE */
+    AF_LATIN_BLUE_ADJUSTMENT = 1 << 2,  /* used for scale adjustment      */
+                                        /* optimization                   */
+    AF_LATIN_BLUE_FLAG_MAX
+  };
 
 
   typedef struct  AF_LatinBlueRec_
   {
     AF_WidthRec  ref;
     AF_WidthRec  shoot;
-    FT_Pos       ascender;
-    FT_Pos       descender;
     FT_UInt      flags;
 
   } AF_LatinBlueRec, *AF_LatinBlue;
@@ -140,11 +135,15 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-#define AF_LATIN_HINTS_HORZ_SNAP    ( 1U << 0 ) /* stem width snapping  */
-#define AF_LATIN_HINTS_VERT_SNAP    ( 1U << 1 ) /* stem height snapping */
-#define AF_LATIN_HINTS_STEM_ADJUST  ( 1U << 2 ) /* stem width/height    */
-                                                /* adjustment           */
-#define AF_LATIN_HINTS_MONO         ( 1U << 3 ) /* monochrome rendering */
+  enum
+  {
+    AF_LATIN_HINTS_HORZ_SNAP   = 1 << 0, /* enable stem width snapping  */
+    AF_LATIN_HINTS_VERT_SNAP   = 1 << 1, /* enable stem height snapping */
+    AF_LATIN_HINTS_STEM_ADJUST = 1 << 2, /* enable stem width/height    */
+                                         /* adjustment                  */
+    AF_LATIN_HINTS_MONO        = 1 << 3  /* indicate monochrome         */
+                                         /* rendering                   */
+  };
 
 
 #define AF_LATIN_HINTS_DO_HORZ_SNAP( h )             \
@@ -170,8 +169,6 @@ FT_BEGIN_HEADER
 
   FT_LOCAL( void )
   af_latin_hints_link_segments( AF_GlyphHints  hints,
-                                FT_UInt        width_count,
-                                AF_WidthRec*   widths,
                                 AF_Dimension   dim );
 
   FT_LOCAL( FT_Error )
@@ -180,15 +177,13 @@ FT_BEGIN_HEADER
 
   FT_LOCAL( FT_Error )
   af_latin_hints_detect_features( AF_GlyphHints  hints,
-                                  FT_UInt        width_count,
-                                  AF_WidthRec*   widths,
                                   AF_Dimension   dim );
 
 /* */
 
 FT_END_HEADER
 
-#endif /* AFLATIN_H_ */
+#endif /* __AFLATIN_H__ */
 
 
 /* END */
